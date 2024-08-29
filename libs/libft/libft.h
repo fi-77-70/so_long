@@ -15,6 +15,10 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
+
+# ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
 
 typedef struct s_list
 {
@@ -91,6 +95,8 @@ int		ft_tolower(int c);
 
 int		ft_toupper(int c);
 
+char	**get_arr(int fd);
+
 t_list	*ft_lstnew(void *content);
 
 int		ft_lstsize(t_list *lst);
@@ -109,4 +115,5 @@ void	ft_lstiter(t_list *lst, void (*f)(void*));
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void *));
 
+# endif
 #endif
