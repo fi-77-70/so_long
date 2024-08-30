@@ -1,14 +1,18 @@
 #include "libft.h"
+#include <stdio.h>
+#include <fcntl.h>
 
 static void	free_matrix(char **line)
 {
-	int	a;
+	int	i;
+	char	*temp;
 
-	a = 0;
-	while (line[a])
+	i = 0;
+	while (line[i])
 	{
-		free(line[a]);
-		a++;
+		temp = line[i];
+		free(temp);
+		i++;
 	}
 	free (line);
 }
@@ -41,7 +45,7 @@ static char	**m_matrix(char **line, char *stas)
 	while (stash[++i])
 		if (stash[i] == '\n')
 			a++;
-	if (i < 1)
+	if (i < 1 || !*stash)
 		return (NULL);
 	line = (char **)malloc(sizeof(char *) * a);
 	if (!line)
@@ -58,16 +62,17 @@ static char	**m_matrix(char **line, char *stas)
 			stash++;
 			j++;
 			a = 0;
-			line[j] = (char *)malloc(sizeof(char *) * ft_strclen(stash, '\n'));
-			if(!line[j])
+			if(*stash)
+				line[j] = (char *)malloc(sizeof(char *) * ft_strclen(stash, '\n'));
+			if(*stash && !line[j])
 				return (free_matrix(line), NULL);
 		}
-		line[j][a] = stash[i];
+		if(!*stash)
+			break;
+		line[j][a] = *stash;
 		stash++;
 		a++;
 	}
-	line[j][a] = 0;
-	j++;
 	line[j] = NULL;
 	return (line);
 }
@@ -86,10 +91,15 @@ static char	*join(char *s1, char *s2)
 	if(!new_str)
 		return (NULL);
 	a = -1;
-	i = -1;
+	i = 0;
 	if (s1 && *s1)
-		while (s1[++i])
+	{
+		while (s1[i])
+		{
 			new_str[i] = s1[i];
+			i++;
+		}
+	}
 	while (s2[++a])
 		new_str[i++] = s2[a];
 	new_str[i] = 0;
@@ -107,6 +117,10 @@ char	**get_arr(int fd)
 	static char 	*stash;
 
 	line = NULL;
+	bytes_read = 1;
+	stash = NULL;
+	if (fd < 0)
+		return (NULL);
 	while (bytes_read != 0)
 	{
 		buffer = (char*)malloc(sizeof(char) * BUFFER_SIZE + 1);
@@ -114,13 +128,34 @@ char	**get_arr(int fd)
 				return (free(stash), NULL);
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
-			return (NULL);
+			return (free(buffer), free(stash), NULL);
+		if (bytes_read == 0)
+		{
+			free(buffer);
+			break ;
+		}
 		buffer[bytes_read] = 0;
 		stash = join(stash, buffer);
 	}
+	if(!stash && !*stash)
+		return (NULL);
 	line = m_matrix(line, stash);
 	free(stash);
 	return (line);
 }
+/*
+int	main(void)
+{
+	int	j;
+	int	fd;
+	char	**line;
 
-
+	j = 0;
+	fd = open("text", O_RDONLY);
+	line = get_arr(fd);
+	while (line[j])
+		printf("%s\n", line[j++]);
+	free_matrix(line);
+	return (0);
+}
+*/
