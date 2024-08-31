@@ -1,5 +1,14 @@
 #include "header.h"
 
+static void	free_matrix(char **line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+		free(line[i++]);
+	free(line);
+}
 
 int main (int ac, char **av)
 {
@@ -27,5 +36,10 @@ int main (int ac, char **av)
 	line = get_arr(fd);
 	while (line[i])
 		ft_printf("%s\n", line[i++]);
+	ft_printf("SUCCESS\n");
+	ft_printf("NOW_TESTING_MAP_PARSING\n");
+	if (!check_map(line))
+		ft_printf("MAP IS GOOD\n");
+	free_matrix(line);
 	return (0);
 }

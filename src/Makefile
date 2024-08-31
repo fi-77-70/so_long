@@ -1,6 +1,6 @@
 NAME = test
 
-SRC = test.c
+SRC = test.c ./parsers/map_checker.c
 
 LIBFT = ../libs/libft
 

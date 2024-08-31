@@ -4,5 +4,6 @@
 #ifndef HEADER_H
 #define HEADER_H
 
+int	check_map(char **map);
 
 #endif
