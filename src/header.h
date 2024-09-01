@@ -5,5 +5,6 @@
 #define HEADER_H
 
 int	check_map(char **map);
+void	free_matrix(char **line);
 
 #endif

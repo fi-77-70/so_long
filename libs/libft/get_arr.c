@@ -137,7 +137,7 @@ char	**get_arr(int fd)
 		buffer[bytes_read] = 0;
 		stash = join(stash, buffer);
 	}
-	if(!stash && !*stash)
+	if(!stash)
 		return (NULL);
 	line = m_matrix(line, stash);
 	free(stash);
