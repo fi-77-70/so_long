@@ -1,5 +1,6 @@
 #include "header.h"
 
+
 void	free_matrix(char **line)
 {
 	int	i;
@@ -19,7 +20,6 @@ int main (int ac, char **av)
 	int	fd;
 	char	**line;
 
-	
 	i = 1;
 	if (ac < 2)
 		return (0);
@@ -41,12 +41,19 @@ int main (int ac, char **av)
 	while (line[i])
 		ft_printf("%s\n", line[i++]);
 	ft_printf("SUCCESS\n");
-	i = 0;
+	i = -1;
 	ft_printf("NOW_TESTING_MAP_PARSING\n");
 	if (!check_map(line))
 		ft_printf("MAP IS GOOD\n");
-	while (line[i])
-                ft_printf("%s\n", line[i++]);
+	while (line[++i])
+	{
+		len = 0;
+                while (line[i][len] != 'P' && line[i][len])
+			len ++;
+		if (line[i][len] == 'P')
+			break;
+	}
+	game_loop(line, i, len);
 	free_matrix(line);
 	return (0);
 }
