@@ -19,5 +19,7 @@ typedef struct s_gui{
 int	check_map(char **map);
 void	free_matrix(char **line);
 void	game_loop(char **map, int y, int x);
+int	close_game(int key_code, t_gui *gui);
+void	move_player(t_gui *gui, int y, int x);;
 
 #endif
