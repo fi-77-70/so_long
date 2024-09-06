@@ -28,5 +28,5 @@ void	free_matrix(char **line);
 void	game_loop(char **map, int y, int x);
 int	close_game(int key_code, t_gui *gui);
 void	move_player(t_gui *gui, int y, int x);
-
+void	graphics(t_gui *gui, t_img *floor, t_img *wall, t_img *player);
 #endif
