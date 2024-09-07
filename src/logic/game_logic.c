@@ -25,7 +25,8 @@ int	close_game(int key_code, t_gui *gui)
         int     wid;
         int     hei;
 	
-
+	if(key_code == XK_Escape)
+		return (mlx_destroy_window(gui->mlx, gui->win), free_matrix(gui->map), exit(1), 0);
 	chest.img = mlx_xpm_file_to_image(gui->mlx, "../imgs/chest.xpm", &wid, &hei);
         chest.addr = mlx_get_data_addr(chest.img, &chest.bits_p_pixel, &chest.line_len, &chest.endian);
         floor.img = mlx_xpm_file_to_image(gui->mlx, "../imgs/floor.xpm", &wid, &hei);
@@ -36,8 +37,6 @@ int	close_game(int key_code, t_gui *gui)
         wall.addr = mlx_get_data_addr(wall.img, &wall.bits_p_pixel, &wall.line_len, &wall.endian);
         player.img = mlx_xpm_file_to_image(gui->mlx, "../imgs/wizard.xpm", &wid, &hei);
         player.addr = mlx_get_data_addr(player.img, &player.bits_p_pixel, &player.line_len, &player.endian);
-	if(key_code == XK_Escape)
-		return (mlx_destroy_window(gui->mlx, gui->win), 0);
 	if (key_code == XK_Right)
 		move_player(gui, 0, 1);
 	if (key_code == XK_Left)
@@ -47,6 +46,11 @@ int	close_game(int key_code, t_gui *gui)
 	if (key_code == XK_Down)
 		move_player(gui, 1, 0);
 	graphics(gui, &floor, &wall, &player, &chest, &cave);
+	mlx_destroy_image(gui->mlx, player.img);
+	mlx_destroy_image(gui->mlx, wall.img);
+	mlx_destroy_image(gui->mlx, floor.img);
+	mlx_destroy_image(gui->mlx, chest.img);
+	mlx_destroy_image(gui->mlx, cave.img);
 	return (0);
 }
 
@@ -107,9 +111,10 @@ void	graphics(t_gui *gui, t_img *floor, t_img *wall, t_img *player, t_img *chest
 		}
 	}
 	mlx_put_image_to_window(gui->mlx, gui->win, buffer.img, 0, 0);
+	mlx_destroy_image(gui->mlx, buffer.img);
 }
 
-void	game_loop(char **map, int y, int x)
+int	game_loop(char **map, int y, int x)
 {
 	t_gui	gui;
 
@@ -120,5 +125,5 @@ void	game_loop(char **map, int y, int x)
 	gui.win = mlx_new_window(gui.mlx, 864, 320, "Hello");
 	mlx_hook(gui.win, 3, (1L<<1), close_game, &gui);
 	mlx_loop(gui.mlx);
-	return;
+	return(0);
 }
