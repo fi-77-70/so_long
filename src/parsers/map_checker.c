@@ -14,7 +14,7 @@ char	**dup_arr(char **map)
 	while (map[++y])
 	{
 		x = 0;
-		while (map[y][++x])
+		while (map[y][x])
 			x++;
 		if(x > 0)
 			dup[y] = (char *)malloc(sizeof(char) * x + 1);
@@ -25,6 +25,7 @@ char	**dup_arr(char **map)
 		x = -1;
 		while (map[y][++x])
 			dup[y][x] = map[y][x];
+		dup[y][x] = 0;
 	}
 	dup[y] = NULL;
 	return (dup);
@@ -78,11 +79,11 @@ int	check_letters(char **map)
 		while (map[y][++x])
 		{
 			if(map[y][x] == 'P')
-				p = 1;
+				p += 3;
 			if(map[y][x] == 'C')
-				c = 2;
+				c = 1;
 			if(map[y][x] == 'E')
-				e = 4;	
+				e += 4;	
 		}
 	}
 	return (p + c + e);
@@ -112,13 +113,13 @@ int	flood_map(char **field, int y, int x, int a, int b)
 	field[y][x] = 'F';
 
 	if (field[y + 1][x] != '1' && field[y + 1][x] != 'F')
-	       	flood_map(field, ++y, x, a, b);
+	       	flood_map(field, y + 1, x, a, b);
 	if (field[y][x + 1] != '1' && field[y][x + 1] != 'F')
-		flood_map(field, y, ++x, a, b);
+		flood_map(field, y, x + 1, a, b);
 	if (field[y - 1][x] != '1' && field[y - 1][x] != 'F')
-		flood_map(field, --y, x, a, b);
+		flood_map(field, y - 1, x, a, b);
 	if (field[y][x - 1] != '1' && field[y][x - 1] != 'F')
-		flood_map(field, y, --x, a, b);
+		flood_map(field, y, x - 1, a, b);
 	if(y != a || x != b)
 		return (0);
 	if(check_goals(field))
@@ -127,15 +128,15 @@ int	flood_map(char **field, int y, int x, int a, int b)
 		return (0);
 }
 
-
 int	check_essentials(char **map, int y, int x)
 {
 	int	result;
 	char	**dup;
 
+	dup = NULL;
 	result = check_letters(map);
-	if(result != 7)
-		return (ft_printf("Error, map does not have all requiremnts"), 0);
+	if(result != 8)
+		return (ft_printf("Error, map does not meet all requiremnts"), 0);
 	dup = dup_arr(map);
 	if(flood_map(dup, y, x, y, x))
 		return (free_matrix(dup), ft_printf("Error, can't reach everything in map\n"), 0);

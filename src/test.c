@@ -103,6 +103,8 @@ int main (int ac, char **av)
 	ft_printf("NOW_TESTING_MAP_PARSING\n");
 	if (!check_map(line))
 		ft_printf("MAP IS GOOD\n");
+	else
+		return(free_matrix(line), 0);
 	while (line[++i])
 	{
 		len = 0;
