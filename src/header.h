@@ -24,6 +24,7 @@ typedef struct s_gui{
 	int	map_y;
 	int	map_x;
 	int	collectables;
+	int	moves;
 	int	player_c;
 	t_img	player;
 	t_img	chest;

@@ -2,9 +2,6 @@
 
 void	move_player(t_gui *gui, int y, int x)
 {
-	int	i;
-	
-	i = -1;
 	if(gui->map[gui->p_y + y][gui->p_x + x] != '1')
 	{
 		if(gui->map[gui->p_y][gui->p_x] == 'C')
@@ -13,10 +10,10 @@ void	move_player(t_gui *gui, int y, int x)
 			gui->map[gui->p_y][gui->p_x] = '0';
 		}
 		gui->p_y = gui->p_y + y;
-		gui->p_x = gui->p_x + x;		
+		gui->p_x = gui->p_x + x;
+		gui->moves += 1;
+		ft_printf("number of moves --> [%d]\n", gui->moves);
 	}
-	while (gui->map[++i])
-		ft_printf("%s\n", gui->map[i]);
 	return ;
 }
 

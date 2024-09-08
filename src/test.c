@@ -46,6 +46,7 @@ void	init_numbers(t_gui *gui, char **map)
 	int	y;
 	int	x;
 
+	gui->moves = 0;
 	y = 0;
 	x = -1;
 	while (map[y][++x])
