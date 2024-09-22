@@ -6,19 +6,20 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 20:59:48 by filferna          #+#    #+#             */
-/*   Updated: 2024/04/29 20:07:36 by filferna         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:25:57 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-
-# ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
 
 typedef struct s_list
 {
@@ -115,5 +116,8 @@ void	ft_lstiter(t_list *lst, void (*f)(void*));
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void *));
 
-# endif
+void	free_matrix(char **line);
+
+int		ft_strclen(char *str, char c);
+
 #endif

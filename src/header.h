@@ -1,6 +1,6 @@
 #include "../libs/libft/libft.h"
 #include "../libs/ft_printf/ft_printf.h"
-#include <mlx.h>
+#include "../minilibx-linux/mlx.h"
 #include <X11/keysym.h>
 #include <X11/X.h>
 
