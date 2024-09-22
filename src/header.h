@@ -31,14 +31,18 @@ typedef struct s_gui{
 	t_img	cave;
 	t_img	floor;
 	t_img	wall;
+	t_img	background;
+	t_img	buffer;
 }	t_gui;
 
 void	free_gui(t_gui *gui);
 void	init(t_gui *gui, char **map, int y, int x);
-int	check_map(char **map);
+int		check_map(char **map);
 void	free_matrix(char **line);
-int	game_loop(t_gui *gui);
-int	close_game(int key_code, t_gui *gui);
+int		game_loop(t_gui *gui);
+int		close_game(int key_code, t_gui *gui);
 void	move_player(t_gui *gui, int y, int x);
 void	graphics(t_gui *gui);
+void	make_map(t_gui *gui);
+
 #endif

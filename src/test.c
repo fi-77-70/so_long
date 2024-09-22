@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:39:01 by filferna          #+#    #+#             */
-/*   Updated: 2024/09/22 16:39:04 by filferna         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:03:01 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void 	free_gui(t_gui *gui)
 	mlx_destroy_image(gui->mlx, gui->cave.img);
 	mlx_destroy_image(gui->mlx, gui->wall.img);
 	mlx_destroy_image(gui->mlx, gui->floor.img);
+	mlx_destroy_image(gui->mlx, gui->background.img);
 	mlx_destroy_window(gui->mlx, gui->win);
 	mlx_destroy_display(gui->mlx);
 	free(gui->mlx);
@@ -51,6 +52,8 @@ void	init_imgs(t_gui *gui)
 	gui->wall.addr = mlx_get_data_addr(gui->wall.img, &gui->wall.bits_p_pixel, &gui->wall.line_len, &gui->wall.endian);
 	gui->floor.img = mlx_xpm_file_to_image(gui->mlx, "../imgs/floor.xpm", &wid, &hei);
 	gui->floor.addr = mlx_get_data_addr(gui->floor.img, &gui->floor.bits_p_pixel, &gui->floor.line_len, &gui->floor.endian);
+	gui->background.img = mlx_new_image(gui->mlx, gui->map_x * 32, gui->map_y * 32);
+	gui->background.addr = mlx_get_data_addr(gui->background.img, &gui->background.bits_p_pixel, &gui->background.line_len, &gui->background.endian);
 }
 
 void	init_numbers(t_gui *gui, char **map)

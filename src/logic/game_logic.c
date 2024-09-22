@@ -8,6 +8,7 @@ void	move_player(t_gui *gui, int y, int x)
 		{
 			gui->player_c += 1;
 			gui->map[gui->p_y][gui->p_x] = '0';
+			make_map(gui);
 		}
 		gui->p_y = gui->p_y + y;
 		gui->p_x = gui->p_x + x;
@@ -58,7 +59,35 @@ void	put_tiles(t_img *buffer, t_img *tile, int y, int x)
 		if(a == 32)
 			break;
 		dst = buffer->addr + (y * buffer->line_len  + x * (buffer->bits_p_pixel / 8));
-                src = tile->addr + (a * tile->line_len + b * (tile->bits_p_pixel / 8));
+        src = tile->addr + (a * tile->line_len + b * (tile->bits_p_pixel / 8));
+		if(*src)
+			*(unsigned int*)dst = *(unsigned int*)src;
+		b++;
+		x++;
+	}
+}
+void	put_back_groud(t_img *buffer, t_gui *gui, int y, int x)
+{
+	int		a;
+	int		b;
+	char	*dst;
+	char	*src;
+
+	a = 0;
+	b = 0;
+	while(a < 32 * gui->map_y)
+	{
+		if (b == 32 * gui->map_x)
+		{
+			a++;
+			y++;
+			b = 0;
+			x = 0;
+		}
+		if(a == 32 * gui->map_y)
+			break;
+		dst = buffer->addr + (y * buffer->line_len  + x * (buffer->bits_p_pixel / 8));
+        src = gui->background.addr + (a * gui->background.line_len + b * (gui->background.bits_p_pixel / 8));
 		if(*src)
 			*(unsigned int*)dst = *(unsigned int*)src;
 		b++;
@@ -66,38 +95,46 @@ void	put_tiles(t_img *buffer, t_img *tile, int y, int x)
 	}
 }
 
-void	graphics(t_gui *gui)
+void	make_map(t_gui *gui)
 {
 	int	y;
 	int	x;
-	t_img	buffer;
 
 	y = -1;
-	buffer.img = mlx_new_image(gui->mlx, gui->map_x * 32, gui->map_y * 32);
-	buffer.addr = mlx_get_data_addr(buffer.img, &buffer.bits_p_pixel, &buffer.line_len, &buffer.endian);
 	while(gui->map[++y])
 	{
 		x = -1;
 		while(gui->map[y][++x])
 		{
 			if (gui->map[y][x] == '0' || gui->map[y][x] == 'C' || gui->map[y][x] == 'E' || gui->map[y][x] == 'P')
-				put_tiles(&buffer, &gui->floor, y * 32, x * 32);
+				put_tiles(&gui->background, &gui->floor, y * 32, x * 32);
 			if (gui->map[y][x] == '1')
-                                put_tiles(&buffer, &gui->wall, y * 32, x * 32);
+                put_tiles(&gui->background, &gui->wall, y * 32, x * 32);
 			if (gui->map[y][x] == 'C')
-				put_tiles(&buffer, &gui->chest, y * 32, x * 32);
+				put_tiles(&gui->background, &gui->chest, y * 32, x * 32);
 			if (gui->map[y][x] == 'E')
-				put_tiles(&buffer, &gui->cave, y * 32, x * 32);
-			put_tiles(&buffer, &gui->player, (gui->p_y * 32), (gui->p_x *32));
+				put_tiles(&gui->background, &gui->cave, y * 32, x * 32);
 		}
 	}
+}
+
+void	graphics(t_gui *gui)
+{
+	t_img	buffer;
+
+	buffer.img = mlx_new_image(gui->mlx, gui->map_x * 32, gui->map_y * 32);
+	buffer.addr = mlx_get_data_addr(buffer.img, &buffer.bits_p_pixel, &buffer.line_len, &buffer.endian);
+	put_back_groud(&buffer, gui, 0, 0);
+	put_tiles(&buffer, &gui->player, (gui->p_y * 32), (gui->p_x *32));
 	mlx_put_image_to_window(gui->mlx, gui->win, buffer.img, 0, 0);
 	mlx_destroy_image(gui->mlx, buffer.img);
 }
 
 int	game_loop(t_gui *gui)
 {
-	mlx_hook(gui->win, 3, (1L<<1), close_game, gui);
+	make_map(gui);
+	graphics(gui);
+	mlx_hook(gui->win, KeyPress, KeyPressMask, close_game, gui);
 	mlx_loop(gui->mlx);
 	return(0);
 }
