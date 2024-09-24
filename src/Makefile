@@ -1,6 +1,6 @@
 NAME = so_long
 
-SRC = so_long.c ./parsers/map_checker.c ./parsers/map_checker_utils.c ./logic/game_logic.c
+SRC = so_long.c ./parsers/map_checker.c ./parsers/map_checker_utils.c ./logic/game_logic.c ./logic/game_logic_utils.c
 
 LIBFT = ../libs/libft
 

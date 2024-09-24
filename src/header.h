@@ -49,5 +49,6 @@ int		check_letters(char **map);
 void	dup_arr_2(char **dup, char ** map);
 char	**dup_arr(char **map);
 int		really_close(t_gui *gui);
+void	put_tiles(t_img *buffer, t_img *tile, int y, int x);
 
 #endif
