@@ -6,11 +6,19 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:13 by filferna          #+#    #+#             */
-/*   Updated: 2024/09/22 16:30:46 by filferna         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:29:21 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+void	free_lines(char *buf, char *stash)
+{
+	if (buf)
+		free(buf);
+	if (stash)
+		free(stash);
+}
 
 int	ft_strclen(char *str, char c)
 {

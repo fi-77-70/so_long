@@ -1,23 +1,5 @@
 #include "../header.h"
 
-void	move_player(t_gui *gui, int y, int x)
-{
-	if(gui->map[gui->p_y + y][gui->p_x + x] != '1')
-	{
-		if(gui->map[gui->p_y][gui->p_x] == 'C')
-		{
-			gui->player_c += 1;
-			gui->map[gui->p_y][gui->p_x] = '0';
-			make_map(gui);
-		}
-		gui->p_y = gui->p_y + y;
-		gui->p_x = gui->p_x + x;
-		gui->moves += 1;
-		ft_printf("number of moves --> [%d]\n", gui->moves);
-	}
-	return ;
-}
-
 int	close_game(int key_code, t_gui *gui)
 {	
 	if(key_code == XK_Escape)
@@ -95,29 +77,6 @@ void	put_back_groud(t_img *buffer, t_gui *gui, int y, int x)
 	}
 }
 
-void	make_map(t_gui *gui)
-{
-	int	y;
-	int	x;
-
-	y = -1;
-	while(gui->map[++y])
-	{
-		x = -1;
-		while(gui->map[y][++x])
-		{
-			if (gui->map[y][x] == '0' || gui->map[y][x] == 'C' || gui->map[y][x] == 'E' || gui->map[y][x] == 'P')
-				put_tiles(&gui->background, &gui->floor, y * 32, x * 32);
-			if (gui->map[y][x] == '1')
-                put_tiles(&gui->background, &gui->wall, y * 32, x * 32);
-			if (gui->map[y][x] == 'C')
-				put_tiles(&gui->background, &gui->chest, y * 32, x * 32);
-			if (gui->map[y][x] == 'E')
-				put_tiles(&gui->background, &gui->cave, y * 32, x * 32);
-		}
-	}
-}
-
 void	graphics(t_gui *gui)
 {
 	t_img	buffer;
@@ -125,7 +84,7 @@ void	graphics(t_gui *gui)
 	buffer.img = mlx_new_image(gui->mlx, gui->map_x * 32, gui->map_y * 32);
 	buffer.addr = mlx_get_data_addr(buffer.img, &buffer.bits_p_pixel, &buffer.line_len, &buffer.endian);
 	put_back_groud(&buffer, gui, 0, 0);
-	put_tiles(&buffer, &gui->player, (gui->p_y * 32), (gui->p_x *32));
+	put_tiles(&buffer, &gui->player, (gui->p_y * 32), (gui->p_x * 32));
 	mlx_put_image_to_window(gui->mlx, gui->win, buffer.img, 0, 0);
 	mlx_destroy_image(gui->mlx, buffer.img);
 }
@@ -135,6 +94,7 @@ int	game_loop(t_gui *gui)
 	make_map(gui);
 	graphics(gui);
 	mlx_hook(gui->win, KeyPress, KeyPressMask, close_game, gui);
+	mlx_hook(gui->win, DestroyNotify, NoEventMask, really_close, gui);
 	mlx_loop(gui->mlx);
-	return(0);
+	return (0);
 }

@@ -44,5 +44,10 @@ int		close_game(int key_code, t_gui *gui);
 void	move_player(t_gui *gui, int y, int x);
 void	graphics(t_gui *gui);
 void	make_map(t_gui *gui);
+int		check_numbers(char **map);
+int		check_letters(char **map);
+void	dup_arr_2(char **dup, char ** map);
+char	**dup_arr(char **map);
+int		really_close(t_gui *gui);
 
 #endif

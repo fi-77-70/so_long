@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:03:28 by filferna          #+#    #+#             */
-/*   Updated: 2024/09/22 16:36:59 by filferna         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:29:53 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,11 @@ char	*get_stash(char *buffer, char **stash, int bytes_read, int fd)
 			return (free(stash), NULL);
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
-			return (free(buffer), free(stash), NULL);
+			return (free_lines(buffer, *stash), NULL);
 		if (bytes_read == 0)
 		{
-			free(buffer);
+			if (buffer)
+				free(buffer);
 			return (*stash);
 		}
 		buffer[bytes_read] = 0;

@@ -1,6 +1,6 @@
-NAME = test
+NAME = so_long
 
-SRC = test.c ./parsers/map_checker.c ./logic/game_logic.c
+SRC = so_long.c ./parsers/map_checker.c ./parsers/map_checker_utils.c ./logic/game_logic.c
 
 LIBFT = ../libs/libft
 
@@ -31,4 +31,4 @@ clean:
 fclean: clean
 	$(MAKE) fclean -C $(LIBFT)
 	$(MAKE) fclean -C $(PRINTF)
-	rm test
+	rm so_long
