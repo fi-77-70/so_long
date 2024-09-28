@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 16:24:15 by filferna          #+#    #+#             */
-/*   Updated: 2024/09/24 17:11:23 by filferna         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:21:26 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,16 @@ int	check_letters(char **map)
 		}
 	}
 	return (p + c + e);
+}
+
+void	free_matrix(char **line)
+{
+	int	i;
+
+	i = 0;
+	if (!line)
+		return ;
+	while (line[i])
+		free(line[i++]);
+	free(line);
 }
