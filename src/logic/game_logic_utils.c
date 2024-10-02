@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:13:12 by filferna          #+#    #+#             */
-/*   Updated: 2024/09/28 14:20:33 by filferna         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:45:21 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,6 @@ int	confirm_imgs(void)
 char	*file_name(char *name)
 {
 	if (ft_strncmp(name + ft_strlen(name) - 4, ".ber", 4) != 0)
-		exit(ft_printf("not a .ber file"));
+		exit(ft_printf("not a .ber file\n"));
 	return (name);
 }
